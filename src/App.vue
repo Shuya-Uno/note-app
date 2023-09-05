@@ -1,8 +1,6 @@
 <template>
-  <header>
-    <img src="./assets/icons/menu_FILL0_wght400_GRAD0_opsz24.svg" alt="menu-icon" id="menu-icon" class="icon-bs-size" @click="toggleSideMenu" />
-    <span id="brand-title">くだものパーティー</span>
-  </header>
+  <Header @toggle="toggleSideMenu"/>
+
   <main>
     <div id="backdrop" v-show="!sideMenuHidden" @click="toggleSideMenu"></div>
     <section id="side-menu" ref="sideMenu">
@@ -25,56 +23,10 @@
         <li>旅行プラン</li>
       </ul>
 
-      <footer>
-        <div id="footer-icon-container">
-          <span id="help-icon" class="footer-icons">
-            <img src="./assets/icons/help_FILL0_wght400_GRAD0_opsz24.svg" alt="help-icon" class="icon-bs-size">
-          </span>
-          <span id="contact-icon" class="footer-icons">
-            <img src="./assets/icons/contact_mail_FILL0_wght400_GRAD0_opsz24.svg" alt="contact-icon" class="icon-bs-size">
-          </span>
-        </div>
-        <span>Note App</span>
-      </footer>
+      <Footer />
     </section>
 
-    <div id="note-area">
-      <div class="note-containers">
-        <div class="notes">
-          <span class="note-text">ますかっと
-          </span>
-          <div class="note-icon-container">
-            <img src="./assets/icons/edit_square_FILL0_wght400_GRAD0_opsz24.svg" alt="edit-icon" class="edit-icon" />
-            <img src="./assets/icons/delete_FILL0_wght400_GRAD0_opsz24.svg" alt="delete-icon" class="delete-icon icon-bs-size" />
-          </div>
-        </div>
-      </div>
-
-      <div class="note-drop-gutter"></div>
-
-      <div class="note-containers">
-        <div class="notes">
-          <span class="note-text">らいちをたくさん買う。とりわけ美味しそうなものをたくさん。あああああああああああああああああああああああ
-          </span>
-          <div class="note-icon-container">
-            <img src="./assets/icons/edit_square_FILL0_wght400_GRAD0_opsz24.svg" alt="edit-icon" class="edit-icon" />
-            <img src="./assets/icons/delete_FILL0_wght400_GRAD0_opsz24.svg" alt="delete-icon" class="delete-icon icon-bs-size" />
-          </div>
-        </div>
-      </div>
-
-      <div class="note-drop-gutter"></div>
-
-      <div class="note-containers">
-        <div class="notes">
-          <span class="note-text">苺</span>
-          <div class="note-icon-container">
-            <img src="./assets/icons/edit_square_FILL0_wght400_GRAD0_opsz24.svg" alt="edit-icon" class="edit-icon" />
-            <img src="./assets/icons/delete_FILL0_wght400_GRAD0_opsz24.svg" alt="delete-icon" class="delete-icon icon-bs-size" />
-          </div>
-        </div>
-      </div>
-    </div>
+    <NoteArea />
 
     <div id="create-note-button">
       <img src="./assets/icons/edit_FILL0_wght400_GRAD0_opsz24.svg" alt="create-note-icon" class="icon-bs-size"/>
@@ -83,10 +35,22 @@
 </template>
 
 <script>
+import Header from './components/Header.vue'
+import NoteArea from './components/NoteArea.vue'
+import Footer from './components/Footer.vue'
+
 export default {
+  name:'App',
+  components: {
+    Header,
+    NoteArea,
+    Footer
+  },
+
   data(){
     return {
-      sideMenuHidden: true
+      sideMenuHidden: true,
+      noteTexts: ['くだものパーティー', '晩御飯', '買い物', 'あれ', '旅行プラン']
     }
   },
 
@@ -108,26 +72,15 @@ export default {
 </script>
 
 <style>
-:root {
-  --color-off-white: #eee;
-  --height-note-area: calc(100vh - 56px);
-
-  --icon-size-tablet: calc(24px * 1.125);
-  --create-note-btn-padding-tablet: calc(0.5rem * 1.125);
-}
-
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+:root {
+  --color-off-white: #eee;
+  --height-main-area: calc(100vh - 56px);
 }
 
 @font-face {
@@ -146,36 +99,12 @@ export default {
 
 
 #app {
-  /* max-width: 1260px;
-  margin: 0 auto; */
   height: 100vh;
 
   background-image: linear-gradient(30deg, rgba(38, 32, 144, 1) 0%, rgba(29, 29, 227, 1) 35%, rgba(0, 212, 255, 1) 100%);
   background-repeat: no-repeat;
 
   font-family: 'Noto Sans JP', sans-serif;
-}
-
-header {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-auto-rows: minmax(min-content, max-content);
-
-  padding: 1rem;
-
-  background-color: rgba(38, 32, 144, 0.4);
-  color: #fff;
-}
-
-#brand-title {
-  grid-column: 3 / 7;
-  text-align: center;
-
-  font-weight: bold;
-}
-
-#menu-icon {
-  grid-column: 1 / 2;
 }
 
 main {
@@ -186,7 +115,7 @@ main {
 #backdrop {
   position: fixed;
   width: 100vw;
-  height: var(--height-note-area);
+  height: var(--height-main-area);
   z-index: 1;
 
   background-color: rgba(0, 0, 0, 0.2);
@@ -195,8 +124,8 @@ main {
 #side-menu {
   grid-column: 1 / 2;
   
-width: 12rem;
-  height: var(--height-note-area);
+  width: 12rem;
+  height: var(--height-main-area);
   background-image: linear-gradient(30deg, rgba(80,84,204,1) 0%, rgba(100,106,240,1) 35%, rgba(176,179,255,1) 100%);
   /* opacity: 1; */
 
@@ -211,10 +140,6 @@ width: 12rem;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(8, 1fr);
 }
-
-/* #side-menu:hover {
-  translate: -12rem;
-} */
 
 #create-tree-btn-area {
   display: flex;
@@ -291,98 +216,6 @@ ul > li:nth-child(1) {
   background-color: #1a2de5;
 }
 
-footer {
-  margin-bottom: 0.3rem;
-  width: 100%;
-
-  grid-row: 8 / 9;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.footer-icons {
-  background-color: var(--color-off-white);
-  border-radius: 100%;
-
-  padding: 0.35rem;
-
-  display: inline flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer-icons > img {
-  width: 1.3rem;
-}
-
-#help-icon {
-  margin-right: 0.3rem;
-}
-
-
-#note-area {
-  grid-column: 2 / 9;
-
-  /* display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-auto-rows: minmax(min-content, max-content); */
-}
-
-#note-area > .note-containers:first-child {
-    margin-top: 1rem;
-}
-
-.note-containers {
-  /* grid-column: 2 / 9; */
-
-  display: flex;
-  flex-direction: row-reverse;
-}
-
-.notes {
-  background-color: var(--color-off-white);
-
-  width: fit-content;
-
-  min-width: 6.3rem;
-
-  padding: 2rem 1.75rem 1.5rem 1.75rem;
-
-  margin-right: 0.5rem;
-
-  border-radius: 2.5px;
-
-  position: relative;
-
-}
-
-.note-icon-container {
-  position: absolute;
-  top: 0.3rem;
-  right: 0.5rem;
-
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 0.02rem;
-}
-
-.edit-icon {
-  grid-column: 1 / 2;
-  width: 1.3rem;
-}
-
-.delete-icon {
-  grid-column: 2 / 3;
-}
-
-.note-drop-gutter {
-  grid-column: 1 / 9;
-  height: 0.4rem;
-}
-
 #create-note-button {
   position: fixed;
   bottom: 1.5rem;
@@ -402,6 +235,10 @@ footer {
 @media only screen and (min-width: 750px) {
   :root {
     font-size: 18px;
+    --height-main-area: calc(100vh - 63px);
+
+    --icon-size-tablet: calc(24px * 1.125);
+    --create-note-btn-padding-tablet: calc(0.5rem * 1.125);
   }
 
   #backdrop {
@@ -412,22 +249,10 @@ footer {
     width: var(--icon-size-tablet);
   }
 
-  #menu-icon {
-    margin-left: 0.5rem;
+  #create-note-button {
+    right: 1rem;
+    padding: var(--create-note-btn-padding-tablet);
   }
-
-  #note-area {
-    grid-column: 4 / 9;
-  }
-
-  .note-icon-container {
-    column-gap: 0;
-}
-
-#create-note-button {
-  right: 1rem;
-  padding: var(--create-note-btn-padding-tablet);
-}
 
 }
 </style>
