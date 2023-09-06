@@ -43,4 +43,17 @@
             margin-left: 0.5rem;
         }
     }
+
+    @media only screen and (min-width: 1200px) {
+        header {
+            grid-template-columns: repeat(12, 1fr);
+        }
+
+        #brand-title {
+            grid-column: 5 / 9;
+        }
+        #menu-icon {
+            display: none;
+        }
+    }
 </style>

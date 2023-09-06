@@ -15,7 +15,7 @@
 
       <div class="note-containers">
         <div class="notes">
-          <span class="note-text">らいちをたくさん買う。とりわけ美味しそうなものをたくさん。あああああああああああああああああああああああ
+          <span class="note-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore saepe quam dignissimos placeat repellat itaque libero nemo voluptas! Provident, at!
           </span>
           <div class="note-icon-container">
             <img src="../assets/icons/edit_square_FILL0_wght400_GRAD0_opsz24.svg" alt="edit-icon" class="edit-icon" />
@@ -110,5 +110,15 @@
         .note-icon-container {
             column-gap: 0;
         }
+    }
+
+    @media only screen and (min-width: 1200px) {
+      #note-area {
+        grid-column: 6 / 13;
+      }
+
+      .notes {
+        margin-right: 0.8rem;
+      }
     }
 </style>
