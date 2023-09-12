@@ -1,52 +1,46 @@
 <template>
-  <Header @toggle="toggleSideMenu"/>
+  <Header @toggle="toggleShowMenu" :headerTitle="headerTitle" :page="page"/>
 
   <main>
-
-    <SideMenu ref="sideMenuComponent" :sideMenuHidden="sideMenuHidden"/>
-
-    <NoteArea />
-
-    <div id="create-note-button">
-      <img src="./assets/icons/edit_FILL0_wght400_GRAD0_opsz24.svg" alt="create-note-icon" class="icon-bs-size"/>
-    </div>
+    <router-view :showSideMenu="showSideMenu" @mountNote="definePage('note'), changePageTitle('くだものパーティー')" @mountAbout="definePage('about'), changePageTitle('About')" @mountNotFound="changePageTitle('404')" @toggle="toggleShowMenu"/>
   </main>
 </template>
 
 <script>
+import { computed } from 'vue'
 import Header from './components/Header.vue'
-import SideMenu from './components/SideMenu.vue'
-import NoteArea from './components/NoteArea.vue'
 
 export default {
   name:'App',
   components: {
-    Header,
-    NoteArea,
-    SideMenu
+    Header
   },
 
   data(){
     return {
-      sideMenuHidden: true,
-      noteTexts: ['くだものパーティー', '晩御飯', '買い物', 'あれ', '旅行プラン']
+      showSideMenu: false,
+      headerTitle: 'くだものパーティー',
+      page: null
     }
   },
 
   methods: {
-    toggleSideMenu(){
-      if (!this.sideMenuHidden){
-        this.$refs.sideMenuComponent.$refs.sideMenu.style.left = "-12rem";
-      }
-
-      else {
-        this.$refs.sideMenuComponent.$refs.sideMenu.style.left = 0;
-      }
-
-      this.sideMenuHidden = !this.sideMenuHidden;
-
+    toggleShowMenu(){
+      this.showSideMenu = !this.showSideMenu;
+    },
+    definePage(page){
+      this.page = page
+    },
+    changePageTitle(title){
+      this.headerTitle = title
+    }
+  },
+  provide(){
+    return {
+      showSideMenu: computed(() => this.showSideMenu)
     }
   }
+
 }
 </script>
 
@@ -59,7 +53,7 @@ export default {
 
 :root {
   --color-off-white: #eee;
-  --height-main-area: calc(100vh - 56px);
+  --height-main-area: calc(100vh - 60.8px);
 }
 
 @font-face {
@@ -108,44 +102,20 @@ main {
   overflow: hidden;
 }
 
-#create-note-button {
-  position: absolute;
-  bottom: 1.5rem;
-  right: 0.8rem;
-
-  padding: 0.5rem;
-
-  background-color: var(--color-off-white);
-  border-radius: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+a {
+  text-decoration-line: none;
+  color: rgba(29, 29, 227, 1);
 }
 
 
 @media only screen and (min-width: 750px) {
   :root {
     font-size: 18px;
-    --height-main-area: calc(100vh - 63px);
+    --height-main-area: calc(100vh - 67.8px);
 
     --icon-size-tablet: calc(24px * 1.125);
     --create-note-btn-padding-tablet: calc(0.5rem * 1.125);
   }
-
-  #backdrop {
-    display: none;
-  }
-
-  .icon-bs-size {
-    width: var(--icon-size-tablet);
-  }
-
-  #create-note-button {
-    right: 1rem;
-    padding: var(--create-note-btn-padding-tablet);
-  }
-
 }
 
 @media only screen and (min-width: 1200px) {

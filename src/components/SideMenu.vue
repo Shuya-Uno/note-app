@@ -1,5 +1,5 @@
 <template>
-    <div id="backdrop" v-show="!sideMenuHidden" @click="toggleSideMenu"></div>
+    <div id="backdrop" v-show="showSideMenu" @click="emitToggle"></div>
     <section id="side-menu" ref="sideMenu">
       <div id="create-tree-btn-area">
         <div id="create-tree-button">
@@ -8,7 +8,7 @@
         </div>
       </div>
 
-      <ul>
+      <ul id="side-menu-list">
         <li>くだものパーティー</li>
         <div class="list-drop-gutter"></div>
         <li>晩御飯</li>
@@ -29,9 +29,15 @@
     import Footer from './Footer.vue'
 
     export default {
-        props: ['sideMenuHidden'],
+        emits: ['toggle'],
         components: {
             Footer
+        },
+        inject: ['showSideMenu'],
+        methods: {
+            emitToggle(){
+                this.$emit('toggle')
+            }
         }
     }
 </script>
@@ -94,7 +100,7 @@
     #create-tree-text {
     }
 
-    ul {
+    #side-menu-list {
         grid-row: 2 / 7;
 
         display: grid;
@@ -105,7 +111,7 @@
         scrollbar-width: none;
     }
 
-    ul > li {
+    #side-menu-list > li {
         text-align: center;
         padding: 0.25rem 1rem;
 
@@ -124,7 +130,7 @@
         background: linear-gradient(30deg, rgb(111, 191, 244) 0%, rgba(138,207,250,1) 35%, rgb(195, 230, 255) 100%);
     }
 
-    ul > li:nth-child(1) {
+    #side-menu-list > li:nth-child(1) {
         /* background-color: rgba(80,84,204,1); */
         /* background-color: #62E0B1; */
         /* background-color: #52D4E0; */
@@ -144,6 +150,9 @@
     @media only screen and (min-width: 750px) {
         .icon-bs-size {
             width: var(--icon-size-tablet);
+        }
+        #backdrop {
+            display: none;
         }
     }
     @media only screen and (min-width: 1200px) {

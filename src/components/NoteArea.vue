@@ -1,42 +1,41 @@
 <template>
     <div id="note-area">
-      <div class="note-containers">
-        <div class="notes">
-          <span class="note-text">ますかっと
-          </span>
-          <div class="note-icon-container">
-            <img src="../assets/icons/edit_square_FILL0_wght400_GRAD0_opsz24.svg" alt="edit-icon" class="edit-icon" />
-            <img src="../assets/icons/delete_FILL0_wght400_GRAD0_opsz24.svg" alt="delete-icon" class="delete-icon icon-bs-size" />
-          </div>
-        </div>
-      </div>
+
+      <!-- Rendering each notes with v-for -->
+      <template v-for="noteTxt in noteTxts">
+        <div class="note-drop-gutter"></div>
+        
+        <Notes>
+          <template v-slot:noteText>
+            <span class="note-text"> {{ noteTxt }} </span>
+          </template>
+
+          <template v-slot:icons>
+            <div class="note-icon-container">
+              <img src="../assets/icons/edit_square_FILL0_wght400_GRAD0_opsz24.svg" alt="edit-icon" class="edit-icon" />
+              <img src="../assets/icons/delete_FILL0_wght400_GRAD0_opsz24.svg" alt="delete-icon" class="delete-icon icon-bs-size" />
+            </div>
+          </template>
+        </Notes>
+      </template>
 
       <div class="note-drop-gutter"></div>
-
-      <div class="note-containers">
-        <div class="notes">
-          <span class="note-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore saepe quam dignissimos placeat repellat itaque libero nemo voluptas! Provident, at!
-          </span>
-          <div class="note-icon-container">
-            <img src="../assets/icons/edit_square_FILL0_wght400_GRAD0_opsz24.svg" alt="edit-icon" class="edit-icon" />
-            <img src="../assets/icons/delete_FILL0_wght400_GRAD0_opsz24.svg" alt="delete-icon" class="delete-icon icon-bs-size" />
-          </div>
-        </div>
-      </div>
-
-      <div class="note-drop-gutter"></div>
-
-      <div class="note-containers">
-        <div class="notes">
-          <span class="note-text">苺</span>
-          <div class="note-icon-container">
-            <img src="../assets/icons/edit_square_FILL0_wght400_GRAD0_opsz24.svg" alt="edit-icon" class="edit-icon" />
-            <img src="../assets/icons/delete_FILL0_wght400_GRAD0_opsz24.svg" alt="delete-icon" class="delete-icon icon-bs-size" />
-          </div>
-        </div>
-      </div>
     </div>
 </template>
+
+<script>
+  import Notes from '../components/Notes.vue'
+  export default {
+    components: {
+      Notes
+    },
+    data(){
+      return {
+        noteTxts: ['ますかっと', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore saepe quam dignissimos placeat repellat itaque libero nemo voluptas! Provident, at!', '苺']
+      }
+    }
+  }
+</script>
 
 <style>
     #note-area {
@@ -47,7 +46,7 @@
         grid-auto-rows: minmax(min-content, max-content); */
     }
 
-    #note-area > .note-containers:first-child {
+    #note-area > .note-containers:nth-child(2) {
         margin-top: 1rem;
     }
 

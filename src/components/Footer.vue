@@ -4,9 +4,9 @@
           <span id="help-icon" class="footer-icons">
             <img src="../assets/icons/help_FILL0_wght400_GRAD0_opsz24.svg" alt="help-icon" class="icon-bs-size">
           </span>
-          <span id="contact-icon" class="footer-icons">
-            <img src="../assets/icons/contact_mail_FILL0_wght400_GRAD0_opsz24.svg" alt="contact-icon" class="icon-bs-size">
-          </span>
+          <router-link :to="{name: 'About'}" id="about-icon" class="footer-icons">
+            <img src="../assets/icons/info_FILL0_wght400_GRAD0_opsz24.svg" alt="about-icon" class="icon-bs-size">
+          </router-link>
         </div>
         <span>Note App</span>
     </footer>
