@@ -9,15 +9,12 @@
       </div>
 
       <ul id="side-menu-list">
-        <li>くだものパーティー</li>
+        <template v-for="noteTitle in noteTitles">
+            <div class="list-drop-gutter"></div>
+            <li>{{ noteTitle }}</li>
+        </template>
+
         <div class="list-drop-gutter"></div>
-        <li>晩御飯</li>
-        <div class="list-drop-gutter"></div>
-        <li>買い物</li>
-        <div class="list-drop-gutter"></div>
-        <li>あれ</li>
-        <div class="list-drop-gutter"></div>
-        <li>旅行プラン</li>
       </ul>
 
       <Footer />
@@ -26,6 +23,7 @@
 </template>
 
 <script>
+    import { inject } from 'vue'
     import Footer from './Footer.vue'
 
     export default {
@@ -33,10 +31,18 @@
         components: {
             Footer
         },
-        inject: ['showSideMenu'],
-        methods: {
-            emitToggle(){
-                this.$emit('toggle')
+        setup(props, context){
+            const noteTitles = inject('noteTitles')
+            const showSideMenu = inject('showSideMenu')
+
+            function emitToggle(){
+                context.emit('toggle')
+            }
+
+            return {
+                noteTitles,
+                showSideMenu,
+                emitToggle
             }
         }
     }

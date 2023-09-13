@@ -24,14 +24,19 @@
 </template>
 
 <script>
+  import { inject } from 'vue';
   import Notes from '../components/Notes.vue'
+  
   export default {
     components: {
       Notes
     },
-    data(){
+
+    setup(){
+      const noteTxts = inject('noteTxts')
+
       return {
-        noteTxts: ['ますかっと', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore saepe quam dignissimos placeat repellat itaque libero nemo voluptas! Provident, at!', '苺']
+        noteTxts
       }
     }
   }

@@ -15,10 +15,13 @@
     export default {
         props: ['headerTitle', 'page'],
         emits: ['toggle'],
+        setup(props, context){
+            function emitToggle(){
+                context.emit('toggle')
+            }
 
-        methods: {
-            emitToggle(){
-                this.$emit('toggle')
+            return {
+                emitToggle
             }
         }
     }

@@ -22,8 +22,13 @@
         props: ['showSideMenu'],
         emits: ['mountNote', 'toggle'],
 
-        data(){
+        setup(props, context){
+            function emitToggle(){
+                context.emit('toggle')
+            }
+
             return {
+                emitToggle
             }
         },
         methods: {
@@ -35,9 +40,6 @@
                 else {
                     this.$refs.sideMenuComponent.$refs.sideMenu.style.left = 0;
                 }
-            },
-            emitToggle(){
-                this.$emit('toggle')
             }
         },
         mounted(){

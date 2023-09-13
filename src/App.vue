@@ -2,12 +2,12 @@
   <Header @toggle="toggleShowMenu" :headerTitle="headerTitle" :page="page"/>
 
   <main>
-    <router-view :showSideMenu="showSideMenu" @mountNote="definePage('note'), changePageTitle('くだものパーティー')" @mountAbout="definePage('about'), changePageTitle('About')" @mountNotFound="changePageTitle('404')" @toggle="toggleShowMenu"/>
+    <router-view :showSideMenu="showSideMenu" @mountNote="definePage('note'), changePageTitle(pageName.note)" @mountAbout="definePage('about'), changePageTitle(pageName.about)" @mountNotFound="changePageTitle(pageName.notFound)" @toggle="toggleShowMenu"/>
   </main>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { provide, ref } from 'vue'
 import Header from './components/Header.vue'
 
 export default {
@@ -16,31 +16,48 @@ export default {
     Header
   },
 
-  data(){
-    return {
-      showSideMenu: false,
-      headerTitle: 'くだものパーティー',
-      page: null
-    }
-  },
+  setup(){
+    let headerTitle = ref('くだものパーティー')
+    const noteTexts = ref(['ますかっと', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore saepe quam dignissimos placeat repellat itaque libero nemo voluptas! Provident, at!', '苺'])
+    const noteTitles = ref([ 'くだものパーティー', '晩御飯', '買い物', 'あれ', '旅行プラン'])
+    let page = ref(null)
+    const pageName = ref(
+      {
+        note: 'くだものパーティー',
+        about: 'About',
+        notFound: '404'
+      }
+    )
+    let showSideMenu = ref(false)
 
-  methods: {
-    toggleShowMenu(){
-      this.showSideMenu = !this.showSideMenu;
-    },
-    definePage(page){
-      this.page = page
-    },
-    changePageTitle(title){
-      this.headerTitle = title
+    function changePageTitle(title){
+      headerTitle.value = title
     }
-  },
-  provide(){
+
+    function definePage(givenPage){
+      page.value = givenPage
+    }
+
+    function toggleShowMenu(){
+      showSideMenu.value = !showSideMenu.value;
+    }
+
+
+    provide('noteTxts', noteTexts)
+    provide('noteTitles', noteTitles)
+    provide('showSideMenu', showSideMenu)
+
     return {
-      showSideMenu: computed(() => this.showSideMenu)
+      showSideMenu,
+      headerTitle,
+      pageName,
+      page,
+      noteTitles,
+      changePageTitle,
+      definePage,
+      toggleShowMenu
     }
   }
-
 }
 </script>
 
