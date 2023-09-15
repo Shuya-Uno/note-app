@@ -1,5 +1,5 @@
 <template>
-    <SideMenu ref="sideMenuComponent" @toggle="emitToggle" />
+    <SideMenu ref="sideMenuComponent" />
 
     <NoteArea />
 
@@ -20,33 +20,10 @@
         },
 
         props: ['showSideMenu'],
-        emits: ['mountNote', 'toggle'],
+        emits: ['mountNote'],
 
-        setup(props, context){
-            function emitToggle(){
-                context.emit('toggle')
-            }
-
-            return {
-                emitToggle
-            }
-        },
-        methods: {
-            toggleSideMenu(){
-                if (!this.showSideMenu){
-                    this.$refs.sideMenuComponent.$refs.sideMenu.style.left = "-12rem";
-                }
-
-                else {
-                    this.$refs.sideMenuComponent.$refs.sideMenu.style.left = 0;
-                }
-            }
-        },
         mounted(){
             this.$emit('mountNote')
-        },
-        updated(){
-            this.toggleSideMenu()
         }
     }
 </script>

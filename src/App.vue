@@ -1,13 +1,18 @@
 <template>
-  <Header @toggle="toggleShowMenu" :headerTitle="headerTitle" :page="page"/>
+  <Header :headerTitle="headerTitle" :page="page"/>
 
   <main>
-    <router-view :showSideMenu="showSideMenu" @mountNote="definePage('note'), changePageTitle(pageName.note)" @mountAbout="definePage('about'), changePageTitle(pageName.about)" @mountNotFound="changePageTitle(pageName.notFound)" @toggle="toggleShowMenu"/>
+    <router-view :showSideMenu="showSideMenu" @mountNote="definePage('note'), changePageTitle(pageNameStore.name.note)" @mountAbout="definePage('about'), changePageTitle(pageNameStore.name.about)" @mountNotFound="changePageTitle(pageNameStore.name.notFound)"/>
   </main>
 </template>
 
 <script>
 import { provide, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useNoteStore } from './stores/noteStore.js'
+import { usePageNameStore } from './stores/pageNameStore.js'
+import { useShowSideMenuStore } from './stores/showSideMenuStore.js'
+
 import Header from './components/Header.vue'
 
 export default {
@@ -18,17 +23,15 @@ export default {
 
   setup(){
     let headerTitle = ref('くだものパーティー')
-    const noteTexts = ref(['ますかっと', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore saepe quam dignissimos placeat repellat itaque libero nemo voluptas! Provident, at!', '苺'])
-    const noteTitles = ref([ 'くだものパーティー', '晩御飯', '買い物', 'あれ', '旅行プラン'])
-    let page = ref(null)
-    const pageName = ref(
-      {
-        note: 'くだものパーティー',
-        about: 'About',
-        notFound: '404'
-      }
-    )
-    let showSideMenu = ref(false)
+    const page = ref(null)
+
+    const noteStore = useNoteStore()
+
+    const showSideMenuStore = useShowSideMenuStore()
+
+    const pageNameStore = usePageNameStore()
+
+    const { showSideMenu } = storeToRefs(showSideMenuStore)
 
     function changePageTitle(title){
       headerTitle.value = title
@@ -43,19 +46,18 @@ export default {
     }
 
 
-    provide('noteTxts', noteTexts)
-    provide('noteTitles', noteTitles)
+    provide('noteTxts', noteStore.noteTexts)
+    provide('noteTitles', noteStore.noteTitles)
     provide('showSideMenu', showSideMenu)
+    provide('toggleShowMenu', toggleShowMenu)
 
     return {
       showSideMenu,
       headerTitle,
-      pageName,
+      pageNameStore,
       page,
-      noteTitles,
       changePageTitle,
-      definePage,
-      toggleShowMenu
+      definePage
     }
   }
 }

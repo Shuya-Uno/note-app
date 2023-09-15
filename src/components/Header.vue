@@ -1,6 +1,6 @@
 <template>
     <header>
-        <img src="../assets/icons/menu_FILL0_wght400_GRAD0_opsz24.svg" alt="menu-icon" id="menu-icon" class="icon-bs-size" v-if="page == 'note'" @click="emitToggle" />
+        <img src="../assets/icons/menu_FILL0_wght400_GRAD0_opsz24.svg" alt="menu-icon" id="menu-icon" class="icon-bs-size" v-if="page == 'note'" @click="toggleShowMenu" />
         <!-- <img src="../assets/icons/undo_FILL0_wght400_GRAD0_opsz24.svg" alt="back-icon" id="back-icon" class="icon-bs-size" v-if="page == 'about'" @click="emitToggle" /> -->
         <!-- <img src="../assets/icons/arrow_back_ios_new_FILL0_wght400_GRAD0_opsz24.svg" alt="back-icon" id="back-icon" class="icon-bs-size" v-if="page == 'about'" @click="emitToggle" /> -->
         <router-link :to="{ name: 'Note' }" id="back-home">
@@ -12,16 +12,15 @@
 </template>
 
 <script>
+    import { inject } from 'vue'
+
     export default {
         props: ['headerTitle', 'page'],
-        emits: ['toggle'],
-        setup(props, context){
-            function emitToggle(){
-                context.emit('toggle')
-            }
+        setup(){
+            const toggleShowMenu = inject('toggleShowMenu')
 
             return {
-                emitToggle
+                toggleShowMenu
             }
         }
     }

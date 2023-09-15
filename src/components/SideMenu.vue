@@ -1,5 +1,5 @@
 <template>
-    <div id="backdrop" v-show="showSideMenu" @click="emitToggle"></div>
+    <div id="backdrop" v-show="showSideMenu" @click="toggleShowMenu"></div>
     <section id="side-menu" ref="sideMenu">
       <div id="create-tree-btn-area">
         <div id="create-tree-button">
@@ -23,26 +23,37 @@
 </template>
 
 <script>
-    import { inject } from 'vue'
+    import { inject, ref, watch } from 'vue'
     import Footer from './Footer.vue'
 
     export default {
-        emits: ['toggle'],
         components: {
             Footer
         },
-        setup(props, context){
+        setup(){
             const noteTitles = inject('noteTitles')
             const showSideMenu = inject('showSideMenu')
+            const toggleShowMenu = inject('toggleShowMenu')
 
-            function emitToggle(){
-                context.emit('toggle')
+            const sideMenu = ref(null)
+
+            function toggleSideMenu(){
+                if (!showSideMenu.value){
+                    sideMenu.value.style.left = "-12rem";
+                }
+
+                else {
+                    sideMenu.value.style.left = 0;
+                }
             }
+
+            watch(showSideMenu, () => toggleSideMenu())
 
             return {
                 noteTitles,
                 showSideMenu,
-                emitToggle
+                sideMenu,
+                toggleShowMenu
             }
         }
     }
