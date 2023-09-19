@@ -1,10 +1,10 @@
 <template>
     <header>
-        <img src="../assets/icons/menu_FILL0_wght400_GRAD0_opsz24.svg" alt="menu-icon" id="menu-icon" class="icon-bs-size" v-if="page == 'note'" @click="toggleShowMenu" />
+        <img src="../assets/icons/menu_FILL0_wght400_GRAD0_opsz24.svg" alt="menu-icon" id="menu-icon" class="icon-bs-size" v-if="pageStore.name == 'note'" @click="toggleShowMenu" />
         <!-- <img src="../assets/icons/undo_FILL0_wght400_GRAD0_opsz24.svg" alt="back-icon" id="back-icon" class="icon-bs-size" v-if="page == 'about'" @click="emitToggle" /> -->
         <!-- <img src="../assets/icons/arrow_back_ios_new_FILL0_wght400_GRAD0_opsz24.svg" alt="back-icon" id="back-icon" class="icon-bs-size" v-if="page == 'about'" @click="emitToggle" /> -->
         <router-link :to="{ name: 'Note' }" id="back-home">
-            <img src="../assets/icons/arrow_back_FILL0_wght400_GRAD0_opsz24.svg" alt="back-icon" id="back-icon" class="icon-bs-size" v-if="page == 'about'" @click="emitToggle" />
+            <img src="../assets/icons/arrow_back_FILL0_wght400_GRAD0_opsz24.svg" alt="back-icon" id="back-icon" class="icon-bs-size" v-if="pageStore.name == 'about'" @click="emitToggle" />
         </router-link>
         
         <span id="header-title">{{ headerTitle }}</span>
@@ -12,15 +12,29 @@
 </template>
 
 <script>
-    import { inject } from 'vue'
+    import { inject, ref, watchEffect } from 'vue'
 
     export default {
-        props: ['headerTitle', 'page'],
         setup(){
+            const headerTitle = ref('null')
+            
+            const headerTitleStore = inject('headerTitleStore')
+            const pageStore = inject('pageStore')
             const toggleShowMenu = inject('toggleShowMenu')
 
+            function changePageTitle(title){
+                headerTitle.value = title
+            }
+
+            watchEffect(() => {
+                changePageTitle(headerTitleStore.title)
+                console.log(headerTitleStore.title)
+            })
+
             return {
-                toggleShowMenu
+                headerTitle,
+                toggleShowMenu,
+                pageStore
             }
         }
     }

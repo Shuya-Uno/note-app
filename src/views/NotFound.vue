@@ -6,11 +6,15 @@
 </template>
 
 <script>
-    export default {
-        emits: ['mountNotFound'],
+    import { inject, onMounted } from 'vue';
 
-        mounted(){
-            this.$emit('mountNotFound')
+    export default {
+        setup(){
+            const headerTitleStore = inject('headerTitleStore')
+
+            onMounted(() => {
+                headerTitleStore.setTitle('404')
+            })
         }
     }
 </script>

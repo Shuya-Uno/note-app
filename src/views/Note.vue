@@ -11,6 +11,7 @@
 <script>
     import SideMenu from '../components/SideMenu.vue'
     import NoteArea from '../components/NoteArea.vue'
+    import { inject, onMounted } from 'vue'
 
     export default {
         name: 'Note',
@@ -19,11 +20,16 @@
             SideMenu
         },
 
-        props: ['showSideMenu'],
         emits: ['mountNote'],
 
-        mounted(){
-            this.$emit('mountNote')
+        setup(){
+            const pageStore = inject('pageStore')
+            const headerTitleStore = inject('headerTitleStore')
+
+            onMounted(() => {
+                pageStore.definePage('note')
+                headerTitleStore.setTitle('くだものパーティー')
+            })
         }
     }
 </script>

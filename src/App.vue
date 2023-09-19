@@ -1,16 +1,17 @@
 <template>
-  <Header :headerTitle="headerTitle" :page="page"/>
+  <Header />
 
   <main>
-    <router-view :showSideMenu="showSideMenu" @mountNote="definePage('note'), changePageTitle(pageNameStore.name.note)" @mountAbout="definePage('about'), changePageTitle(pageNameStore.name.about)" @mountNotFound="changePageTitle(pageNameStore.name.notFound)"/>
+    <router-view />
   </main>
 </template>
 
 <script>
-import { provide, ref } from 'vue'
+import { provide } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useNoteStore } from './stores/noteStore.js'
-import { usePageNameStore } from './stores/pageNameStore.js'
+import { usePageStore } from './stores/pageStore.js'
+import { useHeaderTitleStore } from './stores/headerTitleStore.js'
 import { useShowSideMenuStore } from './stores/showSideMenuStore.js'
 
 import Header from './components/Header.vue'
@@ -22,24 +23,16 @@ export default {
   },
 
   setup(){
-    let headerTitle = ref('くだものパーティー')
-    const page = ref(null)
 
     const noteStore = useNoteStore()
 
+    const pageStore = usePageStore()
+
     const showSideMenuStore = useShowSideMenuStore()
 
-    const pageNameStore = usePageNameStore()
+    const headerTitleStore = useHeaderTitleStore()
 
     const { showSideMenu } = storeToRefs(showSideMenuStore)
-
-    function changePageTitle(title){
-      headerTitle.value = title
-    }
-
-    function definePage(givenPage){
-      page.value = givenPage
-    }
 
     function toggleShowMenu(){
       showSideMenu.value = !showSideMenu.value;
@@ -50,14 +43,13 @@ export default {
     provide('noteTitles', noteStore.noteTitles)
     provide('showSideMenu', showSideMenu)
     provide('toggleShowMenu', toggleShowMenu)
+    provide('pageStore', pageStore)
+    provide('headerTitleStore', headerTitleStore)
 
     return {
       showSideMenu,
-      headerTitle,
-      pageNameStore,
-      page,
-      changePageTitle,
-      definePage
+      headerTitleStore,
+      pageStore
     }
   }
 }
