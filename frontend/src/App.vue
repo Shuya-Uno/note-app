@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { provide } from 'vue'
+import { onMounted, provide } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useNoteStore } from './stores/noteStore.js'
 import { usePageStore } from './stores/pageStore.js'
@@ -34,10 +34,21 @@ export default {
 
     const { showSideMenu } = storeToRefs(showSideMenuStore)
 
+    let allNotes = null
+
     function toggleShowMenu(){
       showSideMenu.value = !showSideMenu.value;
     }
 
+    onMounted(() => {
+      fetch('http://localhost:50000/api/app/')
+        .then(res => res.json())
+          .then(data => {
+            allNotes = data
+            console.log(allNotes)
+          })
+        .catch(err => console.log(err))
+    })
 
     provide('noteTxts', noteStore.noteTexts)
     provide('noteTitles', noteStore.noteTitles)

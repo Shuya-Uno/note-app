@@ -28,7 +28,6 @@
 
             watchEffect(() => {
                 changePageTitle(headerTitleStore.title)
-                console.log(headerTitleStore.title)
             })
 
             return {
