@@ -2,12 +2,12 @@
     <div id="note-area">
 
       <!-- Rendering each notes with v-for -->
-      <template v-for="noteTxt in noteTxts">
+      <template v-for="noteText in noteStore.noteTexts">
         <div class="note-drop-gutter"></div>
         
         <Notes>
           <template v-slot:noteText>
-            <span class="note-text"> {{ noteTxt }} </span>
+            <span class="note-text"> {{ noteText }} </span>
           </template>
 
           <template v-slot:icons>
@@ -33,10 +33,10 @@
     },
 
     setup(){
-      const noteTxts = inject('noteTxts')
+      const noteStore = inject('noteStore')
 
       return {
-        noteTxts
+        noteStore
       }
     }
   }

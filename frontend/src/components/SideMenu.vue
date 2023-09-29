@@ -9,7 +9,7 @@
       </div>
 
       <ul id="side-menu-list">
-        <template v-for="noteTitle in noteTitles">
+        <template v-for="noteTitle in noteStore.noteTitles">
             <div class="list-drop-gutter"></div>
             <li>{{ noteTitle }}</li>
         </template>
@@ -31,7 +31,7 @@
             Footer
         },
         setup(){
-            const noteTitles = inject('noteTitles')
+            const noteStore = inject('noteStore')
             const showSideMenu = inject('showSideMenu')
             const toggleShowMenu = inject('toggleShowMenu')
 
@@ -50,7 +50,7 @@
             watch(showSideMenu, () => toggleSideMenu())
 
             return {
-                noteTitles,
+                noteStore,
                 showSideMenu,
                 sideMenu,
                 toggleShowMenu
@@ -124,8 +124,10 @@
         grid-template-columns: 1fr;
         grid-auto-rows: minmax(min-content, max-content);
 
-        overflow-y: scroll;
-        scrollbar-width: none;
+        /* overflow-y: scroll; */
+        overflow-y: auto;
+        /* scrollbar-width: none; */
+        scrollbar-width: thin;
     }
 
     #side-menu-list > li {

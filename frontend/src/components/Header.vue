@@ -6,7 +6,7 @@
         <router-link :to="{ name: 'Note' }" id="back-home">
             <img src="../assets/icons/arrow_back_FILL0_wght400_GRAD0_opsz24.svg" alt="back-icon" id="back-icon" class="icon-bs-size" v-if="pageStore.name == 'about'" @click="emitToggle" />
         </router-link>
-        
+
         <span id="header-title">{{ headerTitle }}</span>
     </header>
 </template>

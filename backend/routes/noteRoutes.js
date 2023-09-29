@@ -9,11 +9,20 @@ const {
     updateNoteListTitle,
     createNote,
     deleteNote,
-    updateNote
+    updateNote,
+    createDocument
 } = require('../controllers/noteController')
 
 // GET all notes & note lists
 router.get('/', getNotes)
+
+// CREATE new document
+router.post('/', createDocument)
+
+// CREATE new note list
+router.patch('/', createNoteList)
+// router.post('/', createNoteList)
+
 
 // UPDATE note order
 router.patch('/notes', (req, res) => {
@@ -35,7 +44,7 @@ router.patch('/note-list', (req, res) => {
 })
 
 // POST new note list
-router.post('/note-list', createNoteList)
+// router.post('/note-list', createNoteList)
 
 // UPDATE note list title
 router.patch('/note-list/:id', updateNoteListTitle)
